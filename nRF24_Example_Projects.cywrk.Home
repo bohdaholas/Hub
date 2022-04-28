@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="nRF24_Example_Projects\00_Basic_Rx">
 <ExpandedNodeIds>
 <v>nRF24_Example_Projects</v>
 <v>nRF24_Example_Projects\00_Basic_Rx\TopDesign</v>
@@ -324,6 +324,9 @@
 </CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
 <Unloaded />
 <OpenDocs>
+<name v=".\00_Basic_Tx.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\00_Basic_Tx.cydsn\00_Basic_Tx.cydwr" />
+<name v=".\00_Basic_Tx.cydsn\main.c" />
 <name v=".\00_Basic_Rx.cydsn\TopDesign\TopDesign.cysch" />
 <name v=".\00_Basic_Rx.cydsn\00_Basic_Rx.cydwr" />
 <name v=".\00_Basic_Rx.cydsn\main.c" />
@@ -334,7 +337,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1349, 634" SelectedTabbedMdiWindow="99f55212-bd90-470e-a1cb-4771bf1b5153"><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\TopDesign\TopDesign.cysch" Guid="b43ab8d1-e5d5-419c-a56e-e2db55558bf3" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\00_Basic_Rx.cydwr" Guid="aae728ef-815b-4717-8bfe-925c8cc46f04" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\main.c" Guid="99f55212-bd90-470e-a1cb-4771bf1b5153" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1349, 872" SelectedTabbedMdiWindow="6581d146-1348-4c7d-864e-cc8a9126f73a"><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\TopDesign\TopDesign.cysch" Guid="adeb0161-f08a-45c0-b73c-cb68c3dcff08" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\00_Basic_Tx.cydwr" Guid="b9ef40db-f3f9-49d9-9b38-d2763bb938ca" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\main.c" Guid="e08fa475-a4ff-4435-bffe-caed5c235fd1" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\TopDesign\TopDesign.cysch" Guid="6581d146-1348-4c7d-864e-cc8a9126f73a" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\00_Basic_Rx.cydwr" Guid="d3e9facf-3f95-4f3a-8d88-6c81dfa335be" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\main.c" Guid="58da7bbd-d82f-4fe3-8b6c-3a87841105e4" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

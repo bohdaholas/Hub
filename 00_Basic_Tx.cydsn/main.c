@@ -18,54 +18,44 @@ CY_ISR_PROTO(IRQ_Handler);
 
 int main(void)
 {
-    const uint8_t TX_ADDR[5]= {0xBA, 0xAD, 0xC0, 0xFF, 0xEE};
-    unsigned char data[] = "This is my data";
-    
-    // Set the interrupts handlers
-    isr_IRQ_StartEx(IRQ_Handler);
-    
     CyGlobalIntEnable;
+    isr_IRQ_StartEx(IRQ_Handler);
     
     UART_Start();
     UART_UartPutChar(0x0C);
-    UART_UartPutString("Basic project: Tx\r\n");
     
     nRF24_start();
+    const uint8_t TX_ADDR[5]= {0xBA, 0xAD, 0xC0, 0xFF, 0xEE};
     nRF24_set_rx_pipe_address(NRF_ADDR_PIPE0, TX_ADDR, 5);
     // set tx pipe address to match the receiver address
     nRF24_set_tx_address(TX_ADDR, 5);
     
-    int counter = 0;
+    unsigned char data[] = "RAW data";
     
     while (1) {
-        UART_UartPutString("\r\nSending letter ");
+        UART_UartPutString("\r\nSending data...\r\n");
         sprintf(TEXT_BUFFER, "\r\n%s", data);  
         UART_UartPutString(TEXT_BUFFER);
         nRF24_transmit(data, sizeof(data));
         
         while(false == irq_flag);
-            
-        // Get and clear the flag that caused the IRQ interrupt,
-        // in this project the only IRQ cause is the caused by
-        // transmitting data (NRF_STATUS_TX_DS_MASK) or timeout
+
         nrf_irq flag = nRF24_get_irq_flag();
-        
         switch (flag) {
         case NRF_TX_DS_IRQ:
-            // turn on the Green LED if the transmit was successfull
+            // Acknowledge packet is received
             LED_Write(0);
             break;
         case NRF_MAX_RT_IRQ:
-            // turn off the Green LED if the transmit was not successfull
+            // Maximum number of retransmits exceeded
             LED_Write(1);
             break;
         default:
             break;
         }
-        
         nRF24_clear_irq_flag(flag);
-        
-        irq_flag = false;
+
+        irq_flag = false;   
         
         CyDelay(250);
       

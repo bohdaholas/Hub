@@ -16,19 +16,15 @@ char TEXT_BUFFER[32];
 CY_ISR_PROTO(IRQ_Handler);
 
 int main(void)
-{
-    const uint8_t RX_ADDR[5]= {0xBA, 0xAD, 0xC0, 0xFF, 0xEE};
-    
-    // Set the Handler for the IRQ interrupt
-    isr_IRQ_StartEx(IRQ_Handler);
-    
+{ 
     CyGlobalIntEnable;
+    isr_IRQ_StartEx(IRQ_Handler);
     
     UART_Start();
     UART_UartPutChar(0x0C);
-    UART_UartPutString("Basic project, Rx\r\n");
     
     nRF24_start();
+    const uint8_t RX_ADDR[5]= {0xBA, 0xAD, 0xC0, 0xFF, 0xEE};
     nRF24_set_rx_pipe_address(NRF_ADDR_PIPE0, RX_ADDR, 5);
     nRF24_start_listening();
     
@@ -41,12 +37,9 @@ int main(void)
         // Get and clear the flag that caused the IRQ interrupt,
         nrf_irq flag = nRF24_get_irq_flag();
         nRF24_clear_irq_flag(flag);
-            
-        LED_Write(~LED_Read());
-            
-        // get the data from the transmitter
+
         nRF24_get_rx_payload(data, sizeof(data));
-            
+
         // send data via UART
         UART_UartPutString("Received: ");
         sprintf(TEXT_BUFFER, "\r\n%s\r\n", data);
