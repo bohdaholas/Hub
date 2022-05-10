@@ -32,7 +32,6 @@
 <v>nRF24_Example_Projects\00_Basic_Rx\Source Files\main.c</v>
 <v>nRF24_Example_Projects\00_Basic_Rx\Generated_Source</v>
 <v>nRF24_Example_Projects\00_Basic_Rx\Generated_Source\PSoC4</v>
-<v>nRF24_Example_Projects\00_Basic_Tx</v>
 <v>nRF24_Example_Projects\00_Basic_Tx\TopDesign</v>
 <v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr</v>
 <v>nRF24_Example_Projects\00_Basic_Tx\Source Files</v>
@@ -41,20 +40,6 @@
 <v>nRF24_Example_Projects</v>
 <v>nRF24_Example_Projects\00_Basic_Rx</v>
 <v>nRF24_Example_Projects\00_Basic_Tx</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\TopDesign</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Pins</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Analog</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\DMA</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Clocks</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Interrupts</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\System</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Directives</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\00_Basic_Tx.cydwr\Flash Security</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\Header Files</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\Source Files</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\Source Files\main.c</v>
-<v>nRF24_Example_Projects\00_Basic_Tx\Generated_Source</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="nRF24_Example_Projects">
@@ -337,7 +322,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1349, 872" SelectedTabbedMdiWindow="6581d146-1348-4c7d-864e-cc8a9126f73a"><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\TopDesign\TopDesign.cysch" Guid="adeb0161-f08a-45c0-b73c-cb68c3dcff08" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\00_Basic_Tx.cydwr" Guid="b9ef40db-f3f9-49d9-9b38-d2763bb938ca" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\main.c" Guid="e08fa475-a4ff-4435-bffe-caed5c235fd1" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\TopDesign\TopDesign.cysch" Guid="6581d146-1348-4c7d-864e-cc8a9126f73a" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\00_Basic_Rx.cydwr" Guid="d3e9facf-3f95-4f3a-8d88-6c81dfa335be" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\main.c" Guid="58da7bbd-d82f-4fe3-8b6c-3a87841105e4" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1349, 872" SelectedTabbedMdiWindow="6581d146-1348-4c7d-864e-cc8a9126f73a"><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\TopDesign\TopDesign.cysch" Guid="adeb0161-f08a-45c0-b73c-cb68c3dcff08" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\00_Basic_Tx.cydwr" Guid="b9ef40db-f3f9-49d9-9b38-d2763bb938ca" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Tx.cydsn\main.c" Guid="e08fa475-a4ff-4435-bffe-caed5c235fd1" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\TopDesign\TopDesign.cysch" Guid="6581d146-1348-4c7d-864e-cc8a9126f73a" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\00_Basic_Rx.cydwr" Guid="d3e9facf-3f95-4f3a-8d88-6c81dfa335be" /><DocumentWindow Key="D:\prj\Hub\00_Basic_Rx.cydsn\main.c" Guid="58da7bbd-d82f-4fe3-8b6c-3a87841105e4" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="556da8ae-6ead-40ee-bd40-3935b6d1450b" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
