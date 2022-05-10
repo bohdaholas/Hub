@@ -4,10 +4,11 @@
 #include <stdlib.h>
 
 #define UART_BUFFLEN        (100u)
+#define PAYLOAD_SIZE        32
 
 volatile bool irq_flag = false;
 
-uint8_t data[32];
+uint8_t data[PAYLOAD_SIZE];
 char UART_BUFFER[UART_BUFFLEN];
 
 CY_ISR_PROTO(IRQ_Handler);
@@ -35,7 +36,7 @@ int main(void)
         nrf_irq flag = nRF24_get_irq_flag();
         nRF24_clear_irq_flag(flag);
 
-        nRF24_get_rx_payload(data, sizeof(data));
+        nRF24_get_rx_payload(data, PAYLOAD_SIZE);
 
         // send data via UART
         UART_UartPutString("Received: ");

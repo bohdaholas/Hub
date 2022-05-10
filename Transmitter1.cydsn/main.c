@@ -10,6 +10,7 @@
 #define ADC_INJ_PERIOD      (5u)
 #define DIETEMP_VREF_MV_VALUE   (1024)
 #define UART_BUFFLEN        (100u)
+#define PAYLOAD_SIZE        32
 
 volatile bool irq_flag = false;
 char UART_BUFFER[UART_BUFFLEN];
@@ -63,10 +64,10 @@ int main(void)
           
         UART_UartPutString(UART_BUFFER);
         UART_UartPutString("\r\nSending data...\r\n");
-        char strTemp[32];
+        char strTemp[PAYLOAD_SIZE];
         itoa(temperature, strTemp, 10);
         sprintf(UART_BUFFER, "\r\n%s", strTemp);  
-        nRF24_transmit((const uint8_t *) strTemp, 32);
+        nRF24_transmit((const uint8_t *) strTemp, PAYLOAD_SIZE);
         
         while(false == irq_flag);
 
