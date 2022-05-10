@@ -1,14 +1,8 @@
-/*
- * 01_Basic_Tx
- * 
- * The nrf24 radio is configured to transmit 1 byte payload.
- */
-
 #include "project.h"
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 
@@ -68,10 +62,11 @@ int main(void)
         }
           
         UART_UartPutString(UART_BUFFER);
-        uint8_t strTemp = (uint8_t) temperature;
         UART_UartPutString("\r\nSending data...\r\n");
-        sprintf(UART_BUFFER, "\r\n%d", strTemp);  
-        nRF24_transmit(&strTemp, sizeof(temperature));
+        char strTemp[32];
+        itoa(temperature, strTemp, 10);
+        sprintf(UART_BUFFER, "\r\n%s", strTemp);  
+        nRF24_transmit((const uint8_t *) strTemp, 32);
         
         while(false == irq_flag);
 

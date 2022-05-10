@@ -1,17 +1,14 @@
-/*
- * 00_Basic_Rx
- * 
- * The nrf24 is configured as Rx, it will print the received data via UART.
- */
-
 #include "project.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#define UART_BUFFLEN        (100u)
 
 volatile bool irq_flag = false;
 
-unsigned char data[32];
-char TEXT_BUFFER[32];
+uint8_t data[32];
+char UART_BUFFER[UART_BUFFLEN];
 
 CY_ISR_PROTO(IRQ_Handler);
 
@@ -42,8 +39,8 @@ int main(void)
 
         // send data via UART
         UART_UartPutString("Received: ");
-        sprintf(TEXT_BUFFER, "\r\n%s\r\n", data);
-        UART_UartPutString(TEXT_BUFFER);
+        sprintf(UART_BUFFER, "\r\n%s\r\n", data);
+        UART_UartPutString(UART_BUFFER);
         irq_flag = false;
     }
 }
