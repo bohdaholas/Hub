@@ -88,8 +88,7 @@ int main(void)
 
         irq_flag = false;   
         
-        CyDelay(250);
-      
+        CySysPmSleep();
     }
 }
 
