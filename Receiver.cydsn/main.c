@@ -5,6 +5,16 @@
 
 #define UART_BUFFLEN        (100u)
 #define PAYLOAD_SIZE        32
+#define DELAY_MS 500
+
+const uint8_t APN[]  = "internet";
+const uint8_t FIREBASE_HOST[]  = "https://hubgprs-e6a18-default-rtdb.firebaseio.com/";
+const uint8_t FIREBASE_SECRET[]  = "Q5dK5otO6zeg3vYLMwf3iwpnaCTjBwOJrMboqkby";
+char buff[100];
+
+void init_gprs();
+void http_post(char *dir, char *data, int length);
+void waitResponse(const char *expected_answer);
 
 volatile bool irq_flag = false;
 
@@ -22,9 +32,8 @@ int main(void)
 { 
     CyGlobalIntEnable;
     isr_IRQ_StartEx(IRQ_Handler);
-    
-    UART_Start();
-    UART_UartPutChar(0x0C);
+    SIM800L_Start();
+    init_gprs();
 
     nRF24_start();
     const uint8_t RX_ADDR0[5]= {0xBA, 0xAD, 0xC0, 0xFF, 0xEE};
@@ -33,36 +42,124 @@ int main(void)
     nRF24_set_rx_pipe_address(NRF_ADDR_PIPE1, RX_ADDR1, 5);
     nRF24_start_listening();
     
-    while (1) {
-        
-        UART_UartPutString("\r\nWaiting for data...\r\n");
-        
+    while (1) {   
         CySysPmSleep();
-            
+        
         // Get and clear the flag that caused the IRQ interrupt,
         nrf_irq flag = nRF24_get_irq_flag();
         nRF24_clear_irq_flag(flag);
         
         uint8_t pipe = nRF24_get_data_pipe_with_payload();
         if (pipe == TEMPERATURE_SENSOR) {
-            sprintf(UART_BUFFER, "\r\nGot data from temperature pipe!\r\n");
+            http_post("temperature", (char *) data, sizeof(data));
         }
         if (pipe == LIGHT_SENSOR) {
-            sprintf(UART_BUFFER, "\r\nGot data from light sensor pipe!\r\n");
+            http_post("light", (char *) data, sizeof(data));
         }
-        UART_UartPutString(UART_BUFFER);
         
-        nRF24_get_rx_payload(data, PAYLOAD_SIZE);
-        sprintf(UART_BUFFER, "Received: %s\r\n", data);
-        UART_UartPutString(UART_BUFFER);
-        
-        irq_flag = false;
+        nRF24_get_rx_payload(data, PAYLOAD_SIZE); 
     }
 }
 
 CY_ISR(IRQ_Handler)
 {
     IRQ_ClearInterrupt();
+}
+
+void init_gprs() {
+    SIM800L_UartPutString("AT\n");
+    waitResponse("OK");
+    CyDelay(1000);
+    
+    SIM800L_UartPutString("AT+SAPBR=3,1,\"Contype\",\"GPRS\"\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    sprintf(buff, "AT+SAPBR=3,1,\"APN\",%s\n", APN);
+    SIM800L_UartPutString(buff);
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+}
+
+void http_post(char *dir, char *data, int length) {
+    SIM800L_UartPutString("AT+SAPBR=1,1\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    SIM800L_UartPutString("AT+HTTPINIT\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    SIM800L_UartPutString("AT+HTTPSSL=1\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    SIM800L_UartPutString("AT+HTTPPARA=\"CID\",1\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    sprintf(buff, "AT+HTTPPARA=URL,%s%s/.json?auth=%s\n", FIREBASE_HOST, dir, FIREBASE_SECRET);
+    SIM800L_UartPutString(buff);
+    waitResponse("OK");
+    CyDelay(1000);
+    
+    SIM800L_UartPutString("AT+HTTPPARA=\"REDIR\",1\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    SIM800L_UartPutString("AT+HTTPPARA=\"CONTENT\",\"application/json\"\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+   
+    sprintf(buff, "AT+HTTPDATA=%d,10000\n", length );
+    SIM800L_UartPutString(buff);
+    waitResponse("DOWNLOAD");
+    CyDelay(1000);
+    
+    SIM800L_UartPutString(data);
+    waitResponse("OK");
+    CyDelay(1000);
+    
+    SIM800L_UartPutString("AT+HTTPACTION=1\n");
+    waitResponse("OK");
+    CyDelay(10000);
+   
+    SIM800L_UartPutString("AT+HTTPTERM\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+    SIM800L_UartPutString("AT+SAPBR=1,0\n");
+    waitResponse("OK");
+    CyDelay(DELAY_MS);
+    
+}
+
+void waitResponse(const char *expected_answer) {
+    char response[500] = "";
+    char rxData;
+    bool answer = 0;
+    bool error = 0;
+    
+    do {
+        rxData = SIM800L_UartGetChar();
+    } while (rxData);
+    
+    do {
+        rxData = SIM800L_UartGetChar();
+        if (rxData) {
+            strncat(response, &rxData, 1);
+            char *found = strstr(response, expected_answer);
+            if(found != NULL){
+                answer = 1;
+            }
+            found = strstr(response, "ERROR");
+            if(found != NULL){
+                error = 1;
+            }
+        }
+            
+    } while((answer == 0) && (error == 0));
+    
 }
 
 /* [] END OF FILE */
