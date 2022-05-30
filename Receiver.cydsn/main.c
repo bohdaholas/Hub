@@ -24,8 +24,8 @@ char UART_BUFFER[UART_BUFFLEN];
 CY_ISR_PROTO(IRQ_Handler);
 
 enum Pipes {
-    TRANSMITOR1 = 0,
-    TRANSMITOR2 = 1
+    TRANSMITTER1 = 0,
+    TRANSMITTER2 = 1
 };
 
 int main(void)
@@ -44,8 +44,6 @@ int main(void)
     nRF24_start_listening();
     
     while (1) {
-        
-        
         CySysPmSleep();
             
         // Get and clear the flag that caused the IRQ interrupt,
@@ -57,16 +55,12 @@ int main(void)
         char thisData[32];
         strcpy(thisData, (char *) data);
         
-        if (pipe == TRANSMITOR1) {
+        if (pipe == TRANSMITTER1) {
             http_post("transmitor1", thisData, strlen(thisData));
         }
-        if (pipe == TRANSMITOR2) {
+        if (pipe == TRANSMITTER2) {
             http_post("transmitor2", thisData, strlen(thisData));
         }    
-        
-       
-        
-        irq_flag = false;
     }
 }
 
