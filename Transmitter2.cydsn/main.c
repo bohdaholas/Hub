@@ -1,44 +1,73 @@
-/*
- * 01_Basic_Tx
- * 
- * The nrf24 radio is configured to transmit 1 byte payload.
- */
-
 #include "project.h"
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+#define ADC_CH_TEMP         (0x02u)
+#define ADC_INJ_PERIOD      (5u)
+#define DIETEMP_VREF_MV_VALUE   (1024)
+#define UART_BUFFLEN        (100u)
+#define PAYLOAD_SIZE        32
 
 volatile bool irq_flag = false;
-char TEXT_BUFFER[32];
+char UART_BUFFER[UART_BUFFLEN];
 
-CY_ISR_PROTO(nrf_IRQ_Handler);
-CY_ISR_PROTO(timer_IRQ_Handler);
+CY_ISR_PROTO(IRQ_Handler);
+CY_ISR_PROTO(Isr_Timer_Handler);
 
 int main(void)
 {
-    Timer_Start();
     CyGlobalIntEnable;
-    isr_nrf_IRQ_StartEx(nrf_IRQ_Handler);
-    isr_Timer_StartEx(timer_IRQ_Handler);
     
     UART_Start();
     UART_UartPutChar(0x0C);
     
+    int16 adcResult[ADC_SAR_Seq_TOTAL_CHANNELS_NUM] = {0};
+    int16 voltage[ADC_SAR_Seq_SEQUENCED_CHANNELS_NUM] = {0};
+    int32 temperature = 0;
+    int16 ADCCountsCorrected = 0;
+    uint16 i = 0;
+    
+    ADC_SAR_Seq_Start();
+    Timer_Start();
+    Isr_Timer_StartEx(Isr_Timer_Handler);
+    
     nRF24_start();
+    isr_IRQ_StartEx(IRQ_Handler);
     const uint8_t TX_ADDR[5]= {0x78, 0x78, 0x78, 0x78, 0x78};
     nRF24_set_rx_pipe_address(NRF_ADDR_PIPE0, TX_ADDR, 5);
     // set tx pipe address to match the receiver address
     nRF24_set_tx_address(TX_ADDR, 5);
     
-    unsigned char data[] = "RAW data";
-    
     while (1) {
+        if(0u != ADC_SAR_Seq_IsEndConversion(ADC_SAR_Seq_RETURN_STATUS)) {
+            for(i = 0; i < ADC_SAR_Seq_SEQUENCED_CHANNELS_NUM; i++) {
+                adcResult[i] = ADC_SAR_Seq_GetResult16(i);
+                voltage[i] = ADC_SAR_Seq_CountsTo_mVolts(i, adcResult[i]);
+            }
+        }
+        
+        /* When conversion of the injection channel has completed */
+        if(0u != ADC_SAR_Seq_IsEndConversion(ADC_SAR_Seq_RETURN_STATUS_INJ)) {
+            adcResult[ADC_CH_TEMP] = ADC_SAR_Seq_GetResult16(ADC_CH_TEMP);
+            
+            // Adjust data from ADC with respect to ADC Vref value
+            ADCCountsCorrected = 
+           (int16)(((int32)adcResult[ADC_CH_TEMP] * ADC_SAR_Seq_DEFAULT_VREF_MV_VALUE) / 
+                    DIETEMP_VREF_MV_VALUE);
+            
+            temperature = DieTemp_CountsTo_Celsius(ADCCountsCorrected);
+        }
+          
+        UART_UartPutString(UART_BUFFER);
         UART_UartPutString("\r\nSending data...\r\n");
-        sprintf(TEXT_BUFFER, "\r\n%s", data);  
-        UART_UartPutString(TEXT_BUFFER);
-        nRF24_transmit(data, 32);
+        char strTemp[PAYLOAD_SIZE];
+        itoa(temperature, strTemp, 10);
+        sprintf(UART_BUFFER, "\r\n%s", strTemp);  
+        nRF24_transmit((const uint8_t *) strTemp, PAYLOAD_SIZE);
         
         while(false == irq_flag);
 
@@ -56,20 +85,28 @@ int main(void)
             break;
         }
         nRF24_clear_irq_flag(flag);
-
-        irq_flag = false;
         
         CySysPmSleep();
     }
 }
 
-CY_ISR(nrf_IRQ_Handler)
-{
-    irq_flag = true;
+CY_ISR(IRQ_Handler) {
     IRQ_ClearInterrupt();
 }
 
-CY_ISR(timer_IRQ_Handler) {
+CY_ISR(Isr_Timer_Handler) {
+    static uint32 injTimer = 0u;
+    
+    injTimer++;
+    
+    if(injTimer >= ADC_INJ_PERIOD) {
+        injTimer = 0u;
+        // Enable the injection channel for the next scan */
+        ADC_SAR_Seq_EnableInjection();
+    }
+    
+    ADC_SAR_Seq_StartConvert();
+
     Timer_ClearInterrupt(Timer_INTR_MASK_TC);
 }
 

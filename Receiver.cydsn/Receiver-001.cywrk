@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_2867d519-54d2-4c01-9830-c51cb08bc3dd type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize" version="5" xml_contents_version="3" name="Receiver-001" persistent="Receiver-001.cywrk" platform="NOT_USED">
+<current_project name="..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Receiver.cydsn\Receiver.cyprj" />
+<wrkspc_folders />
+<files />
+<projects>
+<v>..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Receiver.cydsn\Receiver.cyprj</v>
+<v>..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Transmitter1.cydsn\Transmitter1.cyprj</v>
+<v>..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\TestTransmitter.cydsn\TestTransmitter.cyprj</v>
+<v>..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Transmitter2.cydsn\Transmitter2.cyprj</v>
+</projects>
+<workspace_id v="2d300b92-1560-477a-ba15-ea04fb79ac29" />
+<WriteAppVersionLastSavedWith v="4.4.0.80" />
+<WriteAppMarketingVersionLastSavedWith v="4.4" />
+<CyGuid_dcbd9771-0334-43dc-9cc3-fe99dc3c5316 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize+CyPrjDependencyList" version="4">
+<wrkspc_dependencies>
+<wrkspc_dependency project="..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Receiver.cydsn\Receiver.cyprj" dependency="..\..\..\nRF24_Component\nRF24.cylib\nRF24.cyprj" />
+<wrkspc_dependency project="..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\Transmitter1.cydsn\Transmitter1.cyprj" dependency="..\..\..\nRF24_Component\nRF24.cylib\nRF24.cyprj" />
+<wrkspc_dependency project="..\..\energy\Hub-39b62d30555b9c9ddff47b5272edce52101945a4\TestTransmitter.cydsn\TestTransmitter.cyprj" dependency="..\..\..\nRF24_Component\nRF24.cylib\nRF24.cyprj" />
+</wrkspc_dependencies>
+</CyGuid_dcbd9771-0334-43dc-9cc3-fe99dc3c5316>
+<CyGuid_63b68103-67f5-4406-8da6-5c8625765b82 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize+CyIgnoredSystemDepsList" version="1">
+<wrkspc_dependencies />
+</CyGuid_63b68103-67f5-4406-8da6-5c8625765b82>
+</CyGuid_2867d519-54d2-4c01-9830-c51cb08bc3dd>
+</CyXmlSerializer>

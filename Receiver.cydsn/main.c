@@ -24,14 +24,15 @@ char UART_BUFFER[UART_BUFFLEN];
 CY_ISR_PROTO(IRQ_Handler);
 
 enum Pipes {
-    TEMPERATURE_SENSOR = 0,
-    LIGHT_SENSOR = 1
+    TRANSMITOR1 = 0,
+    TRANSMITOR2 = 1
 };
 
 int main(void)
 { 
     CyGlobalIntEnable;
     isr_IRQ_StartEx(IRQ_Handler);
+    
     SIM800L_Start();
     init_gprs();
 
@@ -42,22 +43,30 @@ int main(void)
     nRF24_set_rx_pipe_address(NRF_ADDR_PIPE1, RX_ADDR1, 5);
     nRF24_start_listening();
     
-    while (1) {   
-        CySysPmSleep();
+    while (1) {
         
+        
+        CySysPmSleep();
+            
         // Get and clear the flag that caused the IRQ interrupt,
         nrf_irq flag = nRF24_get_irq_flag();
         nRF24_clear_irq_flag(flag);
         
         uint8_t pipe = nRF24_get_data_pipe_with_payload();
-        if (pipe == TEMPERATURE_SENSOR) {
-            http_post("temperature", (char *) data, sizeof(data));
-        }
-        if (pipe == LIGHT_SENSOR) {
-            http_post("light", (char *) data, sizeof(data));
-        }
+        nRF24_get_rx_payload(data, PAYLOAD_SIZE);
+        char thisData[32];
+        strcpy(thisData, (char *) data);
         
-        nRF24_get_rx_payload(data, PAYLOAD_SIZE); 
+        if (pipe == TRANSMITOR1) {
+            http_post("transmitor1", thisData, strlen(thisData));
+        }
+        if (pipe == TRANSMITOR2) {
+            http_post("transmitor2", thisData, strlen(thisData));
+        }    
+        
+       
+        
+        irq_flag = false;
     }
 }
 
@@ -111,7 +120,7 @@ void http_post(char *dir, char *data, int length) {
     waitResponse("OK");
     CyDelay(DELAY_MS);
    
-    sprintf(buff, "AT+HTTPDATA=%d,10000\n", length );
+    sprintf(buff, "AT+HTTPDATA=%d,10000\n", length);
     SIM800L_UartPutString(buff);
     waitResponse("DOWNLOAD");
     CyDelay(1000);

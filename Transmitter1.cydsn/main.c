@@ -85,15 +85,12 @@ int main(void)
             break;
         }
         nRF24_clear_irq_flag(flag);
-
-        irq_flag = false;   
         
         CySysPmSleep();
     }
 }
 
 CY_ISR(IRQ_Handler) {
-    irq_flag = true;
     IRQ_ClearInterrupt();
 }
 
